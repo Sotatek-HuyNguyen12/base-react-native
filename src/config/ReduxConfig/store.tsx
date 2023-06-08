@@ -4,12 +4,14 @@ import {createLogger} from 'redux-logger';
 import rootSaga from 'reduxSaga';
 import userReducer from 'reduxSaga/user/userSlice';
 import rootReducer from 'reduxSaga/root/rootSlice';
+import todoReducer from 'reduxSaga/todo/todoSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const reducers = {
   user: userReducer,
   root: rootReducer,
+  todo: todoReducer,
 };
 
 const logger = createLogger({
