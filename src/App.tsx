@@ -7,13 +7,13 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import Home from './screens/home';
 import {store} from './config/ReduxConfig/store';
+import RootStack from 'navigation/RootStack';
 
 function App(): JSX.Element {
   return (
     <Provider store={store}>
-      <Home />
+      <RootStack />
     </Provider>
   );
 }

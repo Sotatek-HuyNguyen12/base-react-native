@@ -11,6 +11,7 @@
     "pod-install": "cd ios && bundle install && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-masked-view/masked-view": "^0.2.9",
