@@ -1,6 +1,12 @@
 import React from 'react';
 import {Controller} from 'react-hook-form';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface FormInputProps {
   name: string;
@@ -10,18 +16,25 @@ interface FormInputProps {
   placeholder?: string;
   label?: string;
   editable?: boolean;
+  secure?: boolean;
+  showLeft?: boolean;
+  showRight?: boolean;
+  onPressRight?: () => void;
 }
 
-const FormInput = (props: FormInputProps) => {
-  const {
-    name,
-    control,
-    error,
-    placeholder,
-    label,
-    editable = true,
-    register,
-  } = props;
+const FormInput: React.FC<FormInputProps> = ({
+  name,
+  control,
+  error,
+  placeholder,
+  label,
+  editable = true,
+  register,
+  secure = false,
+  showRight = false,
+  onPressRight,
+  ...rest
+}) => {
   const styles = myStyles;
 
   const renderInput = ({field}) => {
@@ -40,13 +53,30 @@ const FormInput = (props: FormInputProps) => {
         style={styles.input}
         placeholderTextColor={'gray'}
         editable={editable}
+        autoCapitalize={'none'}
+        importantForAutofill="no"
+        autoComplete="off"
+        secureTextEntry={secure}
+        {...rest}
       />
     );
   };
+
+  const renderRight = () => {
+    return (
+      <TouchableOpacity onPress={onPressRight} style={styles.rightComponent}>
+        <View />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View>
       {label && <Text>{label}</Text>}
-      <Controller control={control} render={renderInput} name={name} />
+      <View style={styles.inputContainer}>
+        <Controller control={control} render={renderInput} name={name} />
+        {showRight && renderRight()}
+      </View>
       {error && error?.message && <Text>{error.message}</Text>}
     </View>
   );
@@ -55,9 +85,18 @@ const FormInput = (props: FormInputProps) => {
 export default FormInput;
 
 const myStyles = StyleSheet.create({
-  input: {
-    height: 40,
+  inputContainer: {
     width: '100%',
     borderBottomWidth: 0.2,
+    flexDirection: 'row',
+    paddingVertical: 1,
+  },
+  input: {
+    height: 40,
+    flex: 1,
+  },
+  rightComponent: {
+    width: 40,
+    backgroundColor: 'gray',
   },
 });

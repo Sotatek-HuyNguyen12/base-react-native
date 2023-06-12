@@ -1,50 +1,40 @@
 import React from 'react';
 import {View, Button, StyleSheet} from 'react-native';
-import {useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import loginSchema from './schema';
 import FormInput from 'components/FormInput';
-import {navigate} from 'utils/NavigationUtils';
-
-const initialValue = {
-  email: '',
-  password: '',
-};
+import LoginViewModel from './loginViewModel';
 
 const LoginScreen = () => {
   const styles = myStyles;
   const {
+    state,
+    handleHidePwd,
     control,
-    formState: {errors},
+    errors,
     handleSubmit,
     register,
-  } = useForm({
-    defaultValues: initialValue,
-    resolver: yupResolver(loginSchema),
-  });
-  const onSubmit = async data => {
-    console.log(data);
-    navigate('Main');
-  };
+    LOGIN_DATA_FORM,
+    onSubmit,
+    isPassword,
+  } = LoginViewModel();
 
   return (
     <View style={styles.container}>
-      <FormInput
-        control={control}
-        name="email"
-        error={errors.email}
-        placeholder="Email"
-        label="Email"
-        register={register}
-      />
-      <FormInput
-        control={control}
-        name="password"
-        error={errors.password}
-        placeholder="Password"
-        label="Password"
-        register={register}
-      />
+      {LOGIN_DATA_FORM.map((item, index) => {
+        return (
+          <FormInput
+            control={control}
+            name={item.name}
+            error={errors[`${item.name}`]}
+            placeholder={item.placeholder}
+            label={item.label}
+            register={register}
+            key={`${item.name}-${index}`}
+            secure={isPassword(item.name) ? state.hidePassword : false}
+            showRight={isPassword(item.name)}
+            onPressRight={handleHidePwd}
+          />
+        );
+      })}
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   );
