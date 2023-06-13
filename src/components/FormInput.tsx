@@ -1,12 +1,6 @@
 import React from 'react';
 import {Controller} from 'react-hook-form';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 interface FormInputProps {
   name: string;
@@ -17,9 +11,8 @@ interface FormInputProps {
   label?: string;
   editable?: boolean;
   secure?: boolean;
-  showLeft?: boolean;
-  showRight?: boolean;
-  onPressRight?: () => void;
+  leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -31,8 +24,8 @@ const FormInput: React.FC<FormInputProps> = ({
   editable = true,
   register,
   secure = false,
-  showRight = false,
-  onPressRight,
+  leftComponent,
+  rightComponent,
   ...rest
 }) => {
   const styles = myStyles;
@@ -62,20 +55,13 @@ const FormInput: React.FC<FormInputProps> = ({
     );
   };
 
-  const renderRight = () => {
-    return (
-      <TouchableOpacity onPress={onPressRight} style={styles.rightComponent}>
-        <View />
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <View>
       {label && <Text>{label}</Text>}
       <View style={styles.inputContainer}>
+        {!!leftComponent && <>{leftComponent}</>}
         <Controller control={control} render={renderInput} name={name} />
-        {showRight && renderRight()}
+        {!!rightComponent && <>{rightComponent}</>}
       </View>
       {error && error?.message && <Text>{error.message}</Text>}
     </View>

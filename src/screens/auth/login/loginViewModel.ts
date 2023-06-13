@@ -1,10 +1,11 @@
+import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {clone} from 'ramda';
 import {loginDataForm, loginFieldName} from './model';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {navigate} from 'utils/NavigationUtils';
 import loginSchema from './schema';
-import {useState} from 'react';
+import Svgs from 'assets/svgs';
 
 const initialValue = {
   email: '',
@@ -46,6 +47,11 @@ const LoginViewModel = () => {
     return state.hidePassword;
   };
 
+  const renderIconVisible = (hide: boolean) => {
+    const Icon = Svgs[`IcVisibility${hide ? 'Off' : ''}`];
+    return Icon;
+  };
+
   return {
     state,
     handleHidePwd,
@@ -57,6 +63,7 @@ const LoginViewModel = () => {
     onSubmit,
     isHidePassword,
     isPassword,
+    renderIconVisible,
   };
 };
 

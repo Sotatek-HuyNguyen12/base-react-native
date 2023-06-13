@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Button, StyleSheet} from 'react-native';
 import FormInput from 'components/FormInput';
 import LoginViewModel from './loginViewModel';
+import RightIcon from 'components/RightIcon';
 
 const LoginScreen = () => {
   const styles = myStyles;
@@ -15,8 +16,9 @@ const LoginScreen = () => {
     LOGIN_DATA_FORM,
     onSubmit,
     isPassword,
+    renderIconVisible,
   } = LoginViewModel();
-
+  const IconRight = renderIconVisible(state.hidePassword);
   return (
     <View style={styles.container}>
       {LOGIN_DATA_FORM.map((item, index) => {
@@ -30,8 +32,11 @@ const LoginScreen = () => {
             register={register}
             key={`${item.name}-${index}`}
             secure={isPassword(item.name) ? state.hidePassword : false}
-            showRight={isPassword(item.name)}
-            onPressRight={handleHidePwd}
+            rightComponent={
+              isPassword(item.name) && (
+                <RightIcon onPress={handleHidePwd} icon={<IconRight />} />
+              )
+            }
           />
         );
       })}
