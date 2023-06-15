@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -9,22 +9,13 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {todoActions, todoSelector} from 'reduxSaga/todo/todoSlice';
-import {userActions, userSelector} from 'reduxSaga/user/userSlice';
 import TodoItem from './components/todoItem';
 
 const TodoScreen = () => {
   const styles = myStyles;
   const dispatch = useDispatch();
-  const user = useSelector(userSelector);
   const todoList = useSelector(todoSelector);
   const [task, setTask] = useState<string>('');
-  console.log('====================================');
-  console.log('user', user, todoList);
-  console.log('====================================');
-  useEffect(() => {
-    dispatch(userActions.getUsers());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleAddTodo = () => {
     const todo = {id: new Date().getTime(), task: task};

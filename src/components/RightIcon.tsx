@@ -8,7 +8,6 @@ interface ComponentProps {
 
 const RightIcon: React.FC<ComponentProps> = ({onPress, icon}) => {
   const styles = myStyles;
-
   return (
     <TouchableOpacity onPress={onPress} style={styles.rightComponent}>
       {icon ? <>{icon}</> : null}
@@ -16,7 +15,7 @@ const RightIcon: React.FC<ComponentProps> = ({onPress, icon}) => {
   );
 };
 
-export default RightIcon;
+export default React.memo(RightIcon);
 
 const myStyles = StyleSheet.create({
   inputContainer: {

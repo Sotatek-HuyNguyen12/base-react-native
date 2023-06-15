@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {clone} from 'ramda';
 import {loginDataForm, loginFieldName} from './model';
@@ -35,9 +35,14 @@ const LoginViewModel = () => {
     navigate('Main');
   };
 
-  const handleHidePwd = () => {
-    setState({...state, hidePassword: !state.hidePassword});
-  };
+  const handleHidePwd = useCallback(() => {
+    setState(prevState => {
+      return {
+        ...prevState,
+        hidePassword: !prevState.hidePassword,
+      };
+    });
+  }, []);
 
   const isPassword = name => {
     return name === loginFieldName.password;
